@@ -48,7 +48,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'movie_site.wsgi.application'
-
+LOGIN_URL = '/users/login/'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

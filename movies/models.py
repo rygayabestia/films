@@ -5,5 +5,7 @@ class Movie(models.Model):
     genres = models.JSONField()
     movie_id = models.IntegerField(unique=True)
 
+
+
     def __str__(self):
         return self.title

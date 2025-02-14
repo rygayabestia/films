@@ -1,0 +1,15 @@
+<h1>{{ movie.title }}</h1>
+<p>Genres:
+    {% for genre, value in filtered_genres.items %}
+        {{ genre }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+
+<a href="{% url 'like_movie' movie.movie_id %}">
+    {% if request.user.is_authenticated and movie in request.user.liked_movies.all %}
+        Unlike
+    {% else %}
+        Like
+    {% endif %}
+</a>
+<a href="{% url 'movie_list' %}">Back to list</a>

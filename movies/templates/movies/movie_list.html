@@ -1,0 +1,42 @@
+<h1>Movies</h1>
+
+<!-- Форма для выбора жанров -->
+<form method="get" action="{% url 'movie_list' %}">
+    <h3>Filter by Genres:</h3>
+    {% for genre in genres %}
+        <input type="checkbox" name="genres" value="{{ genre }}"
+               {% if genre in selected_genres %}checked{% endif %}> {{ genre }}<br>
+    {% endfor %}
+    <input type="submit" value="Filter">
+</form>
+
+<!-- Сообщение, если жанры не выбраны -->
+{% if not show_movies %}
+    <p>Please select at least one genre to see movies.</p>
+{% else %}
+    <!-- Список фильмов -->
+    <ul>
+        {% for movie in page_obj %}
+            <li><a href="{% url 'movie_detail' movie.movie_id %}">{{ movie.title }}</a></li>
+        {% endfor %}
+    </ul>
+
+    <!-- Навигация по страницам -->
+    <div class="pagination">
+        <span class="step-links">
+            {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; first</a>
+                <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
+
+            <span class="current">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+            </span>
+
+            {% if page_obj.has_next %}
+                <a href="?page={{ page_obj.next_page_number }}">next</a>
+                <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+{% endif %}

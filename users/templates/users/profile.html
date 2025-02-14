@@ -1,0 +1,28 @@
+<h1>Profile</h1>
+
+<!-- Форма для редактирования данных -->
+<form method="post">
+    {% csrf_token %}
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" value="{{ user.name }}"><br>
+
+    <label for="login">Login:</label>
+    <input type="text" id="login" name="login" value="{{ user.login }}"><br>
+
+    <label for="password">Password:</label>
+    <input type="password" id="password" name="password" value="{{ user.password }}"><br>
+
+    <button type="submit">Update</button>
+</form>
+
+<!-- Лайкнутые фильмы -->
+<h2>Liked Movies</h2>
+<ul>
+    {% for movie in user.liked_movies.all %}
+        <li>{{ movie.title }}</li>
+    {% empty %}
+        <li>No liked movies yet.</li>
+    {% endfor %}
+</ul>
+
+<a href="{% url 'movie_list' %}">Back to Home</a>

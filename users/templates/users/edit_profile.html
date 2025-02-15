@@ -4,14 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edit Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            font-size: 18px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .edit-profile {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .edit-profile h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .edit-profile form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .edit-profile form button {
+            background-color: #333;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            margin-top: 20px;
+        }
+        .edit-profile form button:hover {
+            background-color: #ff6347;
+        }
+        .edit-profile a {
+            display: inline-block;
+            margin: 20px 0;
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .edit-profile a:hover {
+            color: #ff6347;
+        }
+    </style>
 </head>
 <body>
-    <h2>Edit Profile</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">Save changes</button>
-    </form>
-    <a href="{% url 'profile' %}">Back to Profile</a>
+    <div class="edit-profile">
+        <h2>Edit Profile</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Save changes</button>
+        </form>
+        <a href="{% url 'profile' %}">Back to Profile</a>
+    </div>
 </body>
 </html>

@@ -4,25 +4,90 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        .profile {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+            text-align: center;
+        }
+        .profile h2 {
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+        .profile p {
+            margin: 10px 0;
+        }
+        .profile ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .profile ul li {
+            margin: 10px 0;
+        }
+        .profile ul li a {
+            color: #ffffff;
+            text-decoration: none;
+        }
+        .profile ul li a:hover {
+            color: #ff6347;
+        }
+        .profile .edit-profile-link {
+            display: inline-block;
+            margin: 20px 0;
+            background-color: #333;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+        .profile .edit-profile-link:hover {
+            background-color: #ff6347;
+        }
+        .profile .logout-link {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 24px;
+            color: #ffffff;
+            text-decoration: none;
+        }
+    </style>
 </head>
 <body>
-    <h2>Profile</h2>
-    <p>Name: {{ user.name }}</p>
-    <p>Login: {{ user.login }}</p>
-    <p>Password: {{ user.password }}</p>
+    <div class="profile">
+        <a href="{% url 'logout' %}" class="logout-link">&#8594;</a> <!-- Стрелка вправо -->
+        <h2>Profile</h2>
+        <p>Name: {{ user.name }}</p>
+        <p>Login: {{ user.login }}</p>
+        <p>Password: {{ user.password }}</p>
 
-    <h3>Liked Movies</h3>
-    <ul>
-        {% for like in liked_movies %}
-            <li>
-                <a href="{% url 'movie_detail' like.movie.id %}">{{ like.movie.title }}</a>  <!-- Ссылка на описание фильма -->
-            </li>
-        {% endfor %}
-    </ul>
+        <h3>Liked Movies</h3>
+        <ul>
+            {% for like in liked_movies %}
+                <li>
+                    <a href="{% url 'movie_detail' like.movie.id %}">{{ like.movie.title }}</a>
+                </li>
+            {% endfor %}
+        </ul>
 
-    <a href="{% url 'edit_profile' %}">Edit Profile</a>
-    <a href="{% url 'logout' %}">Logout</a>
-    <br><br>
-    <a href="{% url 'movie_list' %}">Вернуться на главную</a>
+        <a href="{% url 'edit_profile' %}" class="edit-profile-link">Edit Profile</a>
+        <br><br>
+        <a href="{% url 'movie_list' %}">Вернуться на главную</a>
+    </div>
 </body>
 </html>

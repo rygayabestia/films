@@ -4,52 +4,186 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie List</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            font-size: 20px;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        header {
+            background-color: #1f1f1f;
+            width: 100%;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        header nav {
+            display: flex;
+            align-items: center;
+        }
+        header nav a {
+            color: #ffffff;
+            text-decoration: none;
+            margin: 0 10px;
+            font-weight: bold;
+            font-size: 24px; /* Увеличенный размер шрифта для кнопок */
+        }
+        header nav a:hover {
+            color: #ff6347;
+        }
+        .menu-icon {
+            display: none;
+            cursor: pointer;
+            font-size: 24px;
+            color: #ffffff;
+        }
+        .menu-dropdown {
+            display: none;
+            position: absolute;
+            top: 50px;
+            right: 20px;
+            background-color: #1f1f1f;
+            border: 1px solid #333;
+            padding: 10px;
+            z-index: 1000;
+        }
+        .menu-dropdown a {
+            display: block;
+            color: #ffffff;
+            text-decoration: none;
+            margin: 5px 0;
+            font-size: 24px; /* Увеличенный размер шрифта для выпадающего меню */
+        }
+        .movie-list {
+            width: 80%;
+            max-width: 800px;
+            margin: 20px auto;
+        }
+        .movie-list ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .movie-list ul li {
+            margin: 15px 0;
+        }
+        .movie-list ul li a button {
+            background-color: #333;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            width: 100%;
+            text-align: left;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-size: 20px; /* Размер шрифта для кнопок фильмов */
+        }
+        .movie-list ul li a button:hover {
+            background-color: #ff6347;
+        }
+        .movie-list form {
+            margin-bottom: 30px; /* Увеличенное расстояние между чекбоксами и кнопкой */
+        }
+        .movie-list form h2 {
+            margin-bottom: 20px;
+        }
+        .movie-list form label {
+            display: block;
+            margin: 15px 0; /* Увеличенное расстояние между чекбоксами */
+            font-size: 24px; /* Увеличенный размер шрифта для текста чекбоксов */
+        }
+        .movie-list form input[type="checkbox"] {
+            transform: scale(1.5); /* Увеличение размера чекбоксов */
+            margin-right: 10px; /* Отступ справа от чекбокса */
+        }
+        .movie-list form button {
+            background-color: #333;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px; /* Увеличенный размер кнопки */
+            cursor: pointer;
+            border-radius: 8px;
+            transition: background-color 0.3s;
+            font-size: 24px; /* Увеличенный размер шрифта на кнопке */
+            margin-top: 20px; /* Отступ сверху */
+        }
+        .movie-list form button:hover {
+            background-color: #ff6347;
+        }
+        @media (max-width: 768px) {
+            .menu-icon {
+                display: block;
+            }
+            header nav {
+                display: none;
+            }
+            .menu-dropdown {
+                display: block;
+            }
+            .movie-list {
+                width: 95%;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <nav>
             <a href="{% url 'movie_list' %}">Home</a>
             {% if request.session.user_id %}
-                <p>User ID: {{ request.session.user_id }}</p>
-                <a href="{% url 'profile' %}">Profile</a>
-                <a href="{% url 'logout' %}">Logout</a>
-            {% else %}
-                <a href="{% url 'login' %}">Login</a>
-                <a href="{% url 'register' %}">Register</a>
+                <a href="{% url 'profile' %}">Profile</a> <!-- Кнопка "Профиль" добавлена в шапку -->
             {% endif %}
+            <div class="menu-icon">&#9776;</div>
+            <div class="menu-dropdown">
+                {% if request.session.user_id %}
+                    <a href="{% url 'profile' %}">Profile</a>
+                    <a href="{% url 'logout' %}">Logout</a>
+                {% else %}
+                    <a href="{% url 'login' %}">Login</a>
+                    <a href="{% url 'register' %}">Register</a>
+                {% endif %}
+            </div>
         </nav>
     </header>
 
-    <h1>Movie List</h1>
+    <div class="movie-list">
+        <h1>Movie List</h1>
+        <form method="get" action="{% url 'movie_list' %}">
+            <h2>Выберите жанры:</h2>
+            {% for genre in genres %}
+                <label>
+                    <input type="checkbox" name="genres" value="{{ genre }}"
+                        {% if genre in selected_genres %}checked{% endif %}>
+                    {{ genre }}
+                </label><br>
+            {% endfor %}
+            <button type="submit">Подобрать фильмы</button>
+        </form>
 
-    <!-- Форма для выбора жанров -->
-    <form method="get" action="{% url 'movie_list' %}">
-        <h2>Выберите жанры:</h2>
-        {% for genre in genres %}
-            <label>
-                <input type="checkbox" name="genres" value="{{ genre }}"
-                    {% if genre in selected_genres %}checked{% endif %}>
-                {{ genre }}
-            </label><br>
-        {% endfor %}
-        <button type="submit">Подобрать фильмы</button>
-    </form>
-
-    <!-- Список фильмов -->
-    <h2>Подходящие фильмы:</h2>
-    <ul>
-        {% for movie in movies %}
-            <li>
-                <a href="{% url 'movie_detail' movie.movie_id %}">
-                    <button>
-                        {{ movie.title }}
-                        {% if movie.movie_id in liked_movie_ids %}
-                            (Liked)
-                        {% endif %}
-                    </button>
-                </a>
-            </li>
-        {% endfor %}
-    </ul>
+        <h2>Подходящие фильмы:</h2>
+        <ul>
+            {% for movie in movies %}
+                <li>
+                    <a href="{% url 'movie_detail' movie.movie_id %}">
+                        <button>
+                            {{ movie.title }}
+                            {% if movie.movie_id in liked_movie_ids %}
+                                (Liked)
+                            {% endif %}
+                        </button>
+                    </a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
 </body>
 </html>

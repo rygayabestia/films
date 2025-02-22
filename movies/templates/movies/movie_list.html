@@ -27,8 +27,7 @@
         <h2>Выберите жанры:</h2>
         {% for genre in genres %}
             <label>
-                <input type="checkbox" name="genres" value="{{ genre }}"
-                    {% if genre in selected_genres %}checked{% endif %}>
+                <input type="checkbox" name="genres" value="{{ genre }}"{% if genre in selected_genres %}checked{% endif %}>
                 {{ genre }}
             </label><br>
         {% endfor %}
@@ -51,5 +50,16 @@
             </li>
         {% endfor %}
     </ul>
+
+    <!-- Пагинация -->
+    <div>
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ movies.number }} of {{ movies.paginator.num_pages }}</span>
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}">Next</a>
+        {% endif %}
+    </div>
 </body>
 </html>

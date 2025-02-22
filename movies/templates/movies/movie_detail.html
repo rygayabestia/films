@@ -5,6 +5,13 @@
     {% endfor %}
 </p>
 
+{% if api_data %}
+    <p>Description: {{ api_data.description }}</p>
+    <p>Rating: {{ api_data.rating.kp }}</p>
+    <p>Year: {{ api_data.year }}</p>
+    <p>Poster: <img src="{{ api_data.poster.url }}" alt="{{ movie.title }}"></p>
+{% endif %}
+
 <a href="{% url 'like_movie' movie.movie_id %}">
     {% if request.user.is_authenticated and movie in request.user.liked_movies.all %}
         Unlike

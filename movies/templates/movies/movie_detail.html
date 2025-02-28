@@ -3,82 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ movie.title }}</title>
-    <style>
-        body {
-            font-family: 'Arial', sans-serif;
-            background-color: #121212;
-            color: #ffffff;
-            font-size: 18px;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-height: 100vh;
-        }
-        .movie-detail {
-            width: 80%;
-            max-width: 800px;
-            margin: 20px auto;
-            text-align: center;
-        }
-        .movie-detail h1 {
-            font-size: 32px;
-            margin-bottom: 20px;
-        }
-        .movie-detail p {
-            margin: 10px 0;
-        }
-        .movie-detail .genres {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin: 20px 0;
-        }
-        .movie-detail .genres span {
-            margin: 5px 0;
-        }
-        .movie-detail .like-button {
-            background-color: #333;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-            margin-left: auto;
-        }
-        .movie-detail .like-button:hover {
-            background-color: #ff6347;
-        }
-        .movie-detail .back-button {
-            display: block;
-            margin: 20px auto;
-            background-color: #333;
-            color: #ffffff;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            border-radius: 8px;
-            transition: background-color 0.3s;
-        }
-        .movie-detail .back-button:hover {
-            background-color: #ff6347;
-        }
-    </style>
+    <title>{{ movie.name }}</title>
 </head>
 <body>
     <div class="movie-detail">
-        <h1>{{ movie.title }}</h1>
+        <h1>{{ movie.name }}</h1>
+        {% if poster_url %}
+            <img src="{{ poster_url }}" alt="{{ movie.name }}">
+        {% endif %}
+        <p>{{ description }}</p>
+        <p>Rating: {{ rating }}</p>
         <div class="genres">
-            {% for genre, value in filtered_genres.items %}
+            {% for genre in genres %}
                 <span>{{ genre }}</span>
             {% endfor %}
         </div>
-        <a href="{% url 'like_movie' movie.movie_id %}">
+        <a href="{% url 'like_movie' movie.id %}">
             <button class="like-button">
-                {% if request.user.is_authenticated and movie in request.user.liked_movies.all %}
+                {% if request.user.is_authenticated and movie.id in liked_movie_ids %}
                     Unlike
                 {% else %}
                     Like

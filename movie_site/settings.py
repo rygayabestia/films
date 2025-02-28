@@ -19,6 +19,8 @@ INSTALLED_APPS = [
     'users',
 ]
 
+KINOPOISK_API_KEY = '9E6NGCK-MKM4ESC-GBPVXV8-P5EB20F'
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',

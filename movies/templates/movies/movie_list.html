@@ -40,6 +40,7 @@
             <button type="submit">Подобрать фильмы</button>
         </form>
 
+<<<<<<< HEAD
         <h2>Подходящие фильмы:</h2>
         <ul>
             {% for movie in movies %}
@@ -55,6 +56,46 @@
                 </li>
             {% endfor %}
         </ul>
+=======
+    <!-- Форма для выбора жанров -->
+    <form method="get" action="{% url 'movie_list' %}">
+        <h2>Выберите жанры:</h2>
+        {% for genre in genres %}
+            <label>
+                <input type="checkbox" name="genres" value="{{ genre }}"{% if genre in selected_genres %}checked{% endif %}>
+                {{ genre }}
+            </label><br>
+        {% endfor %}
+        <button type="submit">Подобрать фильмы</button>
+    </form>
+
+    <!-- Список фильмов -->
+    <h2>Подходящие фильмы:</h2>
+    <ul>
+        {% for movie in movies %}
+            <li>
+                <a href="{% url 'movie_detail' movie.movie_id %}">
+                    <button>
+                        {{ movie.title }}
+                        {% if movie.movie_id in liked_movie_ids %}
+                            (Liked)
+                        {% endif %}
+                    </button>
+                </a>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <!-- Пагинация -->
+    <div>
+        {% if movies.has_previous %}
+            <a href="?page={{ movies.previous_page_number }}">Previous</a>
+        {% endif %}
+        <span>Page {{ movies.number }} of {{ movies.paginator.num_pages }}</span>
+        {% if movies.has_next %}
+            <a href="?page={{ movies.next_page_number }}">Next</a>
+        {% endif %}
+>>>>>>> 7a7e6d19eb1e3ac72be796a606af44a0a13132b2
     </div>
 </body>
 </html>

@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -33,3 +34,27 @@
     </div>
 </body>
 </html>
+=======
+<h1>{{ movie.title }}</h1>
+<p>Genres:
+    {% for genre, value in filtered_genres.items %}
+        {{ genre }}{% if not forloop.last %}, {% endif %}
+    {% endfor %}
+</p>
+
+{% if api_data %}
+    <p>Description: {{ api_data.description }}</p>
+    <p>Rating: {{ api_data.rating.kp }}</p>
+    <p>Year: {{ api_data.year }}</p>
+    <p>Poster: <img src="{{ api_data.poster.url }}" alt="{{ movie.title }}"></p>
+{% endif %}
+
+<a href="{% url 'like_movie' movie.movie_id %}">
+    {% if request.user.is_authenticated and movie in request.user.liked_movies.all %}
+        Unlike
+    {% else %}
+        Like
+    {% endif %}
+</a>
+<a href="{% url 'movie_list' %}">Back to list</a>
+>>>>>>> 7a7e6d19eb1e3ac72be796a606af44a0a13132b2

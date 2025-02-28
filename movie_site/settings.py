@@ -2,7 +2,7 @@ import os
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
-SECRET_KEY = 'your-secret-key'
+SECRET_KEY = '123'
 
 DEBUG = True
 
@@ -51,6 +51,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'movie_site.wsgi.application'
 LOGIN_URL = '/users/login/'
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -73,6 +74,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # Используем базу данных для хранения сессий
+SESSION_COOKIE_SECURE = False  # Для разработки, в продакшене должно быть True
+SESSION_COOKIE_HTTPONLY = True
+
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
@@ -80,3 +85,6 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+
+# Добавляем API-ключ Кинопоиска
+KINOPOISK_API_KEY = '9E6NGCK-MKM4ESC-GBPVXV8-P5EB20F'
